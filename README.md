@@ -1,5 +1,3 @@
-# Rede-social-com-Flask
-
 # Social Network Application with Flask
 
 This is a simple social network application built using Flask, SQLAlchemy, and Flask-Login. The app allows users to register, log in, post content, and view posts from other users.

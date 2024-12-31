@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Posts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="#">Profile</a></li>
+
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if current_user.is_authenticated %}
+        <section id="new-post">
+            <h2>Create a New Post</h2>
+            <form action="/post" method="POST">
+                <textarea name="content" rows="4" cols="50" placeholder="What's on your mind?"></textarea>
+                <input type="hidden" name="user_id" value="{{ current_user.id }}">
+                <br>
+                <button type="submit">Post</button>
+            </form>
+        </section>
+        {% else %}
+        <p>Please log in to create posts.</p>
+        {% endif %}
+
+        <section id="feed">
+            <h2>Recent Posts</h2>
+            {% for post in posts %}
+                <div class="post">
+                    <h3>{{ post.author.name }} <span>{{ post.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</span></h3>
+                    <p>{{ post.content }}</p>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My Social Network</p>
+    </footer>
+</body>
+</html>
